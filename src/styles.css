@@ -212,7 +212,6 @@ li.opt.ok:hover{border-color:var(--ok)}
 .tag{font-size:13px;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
 .tag.fg{background:var(--surface-2);color:var(--muted)}
 .qbody{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
-.enun{max-width:92ch}
 .enun p{margin:0 0 14px}
 .enun p.src{font-size:13px;color:var(--muted);text-align:right;margin-top:-8px}
 .enun p.porque{font-weight:700;text-align:center;margin:6px 0;letter-spacing:.04em}
@@ -311,7 +310,6 @@ details.enun-d .enun{margin-top:12px}
 .why b{color:var(--accent-ink)}
 .mine-text{white-space:pre-wrap;background:var(--bg);border-radius:12px;padding:14px;font-size:15px;margin:10px 0 0}
 .padrao{margin-top:12px;padding:16px;border-radius:12px;background:var(--accent-soft);font-size:15.5px}
-.padrao .enun{max-width:none}
 .padrao h4{margin:0 0 8px;font-size:15px;color:var(--accent-ink)}
 .selfscore{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:14px;font-size:15px}
 .selfscore button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-weight:700;font-variant-numeric:tabular-nums;font-size:14px}
