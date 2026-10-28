@@ -7,7 +7,7 @@
   --sans:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   color-scheme:light;
-  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  box-sizing:border-box;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -24,8 +24,7 @@
   --scroll:#34444F; --scroll-hover:#4B5E6C; --fig:#F4F7F9; --shadow:none; color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
-html,body{height:100%}
-body{overflow:hidden}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none}
 /* Chrome/Edge ignoram ::-webkit-scrollbar se scrollbar-color estiver definido, então o padrão fica só no Firefox. */
 @supports (-moz-appearance:none){*{scrollbar-width:thin;scrollbar-color:var(--scroll) transparent}}
 ::-webkit-scrollbar{width:10px;height:10px}
@@ -73,7 +72,8 @@ img{max-width:100%;height:auto}
 
 /* ---------- layout / sidebar ---------- */
 /* Cabeçalho e barra lateral ficam fixos; só .conteudo rola. */
-app-root{display:flex;flex-direction:column;height:100%}
+/* Fixo na tela: o documento não tem o que rolar, então o celular não consegue deslocá-lo (teclado, foco, cartão). */
+app-root{position:fixed;inset:0;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
 app-cabecalho{display:block;flex:none}
 .layout{flex:1;min-height:0;display:grid;grid-template-columns:220px minmax(0,1fr)}
 .layout.foco{grid-template-columns:minmax(0,1fr)}
@@ -151,7 +151,7 @@ a.btn{text-decoration:none;color:var(--text)}
 .grupo-temas{display:flex;flex-direction:column;gap:2px;margin:2px 0 0;padding:4px 0 0;border-top:1px solid var(--line)}
 .grupo-temas .tema-op{font-weight:400;padding-left:28px}
 .taxa{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
-.taxa.ok{color:var(--ok)} .taxa.mid{color:var(--warn)} .taxa.bad{color:var(--err)}
+.taxa.ok{color:var(--ok)} .taxa.mid{color:var(--warn)} .taxa.bad{color:var(--err)} .taxa.vazia{color:var(--muted);font-weight:400}
 .temas-nota{font-size:13px;margin:0}
 .tema-op{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:9px;border:1.5px solid transparent;cursor:pointer;font-size:15px;line-height:1.3}
 .tema-op:hover{background:var(--surface)}
@@ -193,8 +193,32 @@ li.opt{cursor:default}
 li.opt:hover{border-color:transparent}
 li.opt.ok:hover{border-color:var(--ok)}
 
+/* ---------- estudos ---------- */
+.estudos-filtros{display:flex;align-items:center;gap:12px 24px;flex-wrap:wrap;margin:28px 0 20px}
+.estudos-busca{position:relative;flex:0 1 360px;min-width:220px;color:var(--muted)}
+.estudos-busca svg{position:absolute;left:14px;top:50%;transform:translateY(-50%)}
+.estudos-busca .input{padding-left:42px}
+.estudos-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,460px),1fr));gap:16px;margin:0 0 56px}
+.estudo{scroll-margin-top:16px;transition:border-color .2s,box-shadow .2s}
+.estudo.destaque{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.estudo-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.estudo-top h2{margin:0;margin-right:auto}
+.estudo-taxa{display:flex;align-items:center;gap:8px}
+.estudo-taxa .bar{width:90px}
+.estudo-resumo{font-size:15px;color:var(--muted);margin:8px 0 14px}
+.recursos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.recurso{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+.recurso-ic{flex:none;width:32px;height:32px;border-radius:8px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink)}
+.recurso-txt{min-width:0;font-size:15px;line-height:1.45}
+.recurso-txt a{color:var(--accent-ink);font-weight:700;text-decoration:none}
+.recurso-txt a:hover{text-decoration:underline}
+.recurso-txt .tag{margin-left:6px;font-size:12px;padding:1px 8px;vertical-align:1px}
+.recurso-d{display:block;font-size:13.5px;color:var(--muted)}
+.estudar{display:inline-block;margin-top:12px;font-size:14px;font-weight:700;color:var(--accent-ink);text-decoration:none}
+.estudar:hover{text-decoration:underline}
+
 /* ---------- exam ---------- */
-.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--surface);border-bottom:1px solid var(--line)}
+.topbar{position:sticky;top:0;z-index:10;background:var(--surface);border-bottom:1px solid var(--line)}
 .topbar .wrap{display:flex;align-items:center;gap:16px;height:64px}
 .sair{margin-left:-12px;padding:8px 12px;flex:none}
 .who{font-size:15px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
@@ -250,7 +274,7 @@ table.sudoku td.bt{border-top:2px solid #1B2833} table.sudoku td.bl{border-left:
 .kbd kbd{font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;background:var(--surface)}
 
 /* answer sheet */
-.sheet{position:sticky;top:calc(env(safe-area-inset-top,0px) + 92px);background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.sheet{position:sticky;top:92px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
 .sheet-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .sheet h2{font-size:16px;margin:0 0 2px}
 .sheet .sheet-close{display:none;width:40px;height:40px;margin:-6px -6px 0 0;border-color:transparent;background:transparent}

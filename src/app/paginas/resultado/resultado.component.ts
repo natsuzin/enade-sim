@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ArmazenamentoService } from '../../core/armazenamento.service';
 import { BancoService } from '../../core/banco.service';
 import { SimuladoService } from '../../core/simulado.service';
@@ -13,7 +13,7 @@ type Aba = 'erradas' | 'disc' | 'todas';
 
 @Component({
   selector: 'app-resultado',
-  imports: [ZoomFigurasDirective],
+  imports: [RouterLink, ZoomFigurasDirective],
   templateUrl: './resultado.component.html',
 })
 export class ResultadoComponent {

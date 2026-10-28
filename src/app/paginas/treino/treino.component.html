@@ -126,6 +126,8 @@
               <span class="tema-n">{{ g.grupo }}</span>
               @if (g.temas.length === 1 && treino.desempenho().get(g.temas[0].tema); as d) {
                 <span class="taxa {{ classeBarra(d.taxa) }}" [attr.title]="d.acertos + ' de ' + d.total + ' nos simulados'">{{ pct(d.acertos, d.total) }}%</span>
+              } @else if (g.temas.length === 1 && treino.desempenho().size) {
+                <span class="taxa vazia" title="Ainda não caiu nos seus simulados">—</span>
               }
               <span class="pill">{{ g.total }}</span>
             </label>
@@ -137,6 +139,8 @@
                     <span class="tema-n">{{ t.tema }}</span>
                     @if (treino.desempenho().get(t.tema); as d) {
                       <span class="taxa {{ classeBarra(d.taxa) }}" [attr.title]="d.acertos + ' de ' + d.total + ' nos simulados'">{{ pct(d.acertos, d.total) }}%</span>
+                    } @else if (treino.desempenho().size) {
+                      <span class="taxa vazia" title="Ainda não caiu nos seus simulados">—</span>
                     }
                     <span class="pill">{{ t.total }}</span>
                   </label>
@@ -157,7 +161,7 @@
           }
         </div>
         @if (treino.desempenho().size) {
-          <p class="muted temas-nota">A porcentagem é o seu acerto em cada tema nos simulados entregues.</p>
+          <p class="muted temas-nota">A porcentagem é o seu acerto em cada tema nos simulados entregues; “—” indica um tema que ainda não caiu em nenhum deles.</p>
         }
       </fieldset>
     } @else {

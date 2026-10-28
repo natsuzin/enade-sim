@@ -93,6 +93,9 @@
             }
           </div>
           <div class="why"><b>Por que {{ it.status === 'ok' ? 'a' : 'é a' }} {{ it.q.resposta }}:</b> {{ it.q.explicacao }}</div>
+          @if (it.status !== 'ok') {
+            <a class="estudar" routerLink="/estudos" [queryParams]="{ tema: it.q.tema }">Estudar este tema <span aria-hidden="true">→</span></a>
+          }
         </article>
       }
     } @empty {

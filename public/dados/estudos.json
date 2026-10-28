@@ -1,0 +1,715 @@
+{
+  "versao": 1,
+  "temas": {
+    "Algoritmos e busca": {
+      "resumo": "Busca sequencial e busca binária (iterativa e recursiva), com o custo de cada uma e a exigência de vetor ordenado.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Estrutura de Dados em C: algoritmos de busca",
+          "fonte": "Programação Descomplicada",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PL8iN9FQ7_jt4oWXSDbXQs3bRCBtYNMqP1"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Projeto e Análise de Algoritmos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHf0301dOCgw8a2U_G3UcOjh"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Algoritmos: teoria e prática",
+          "fonte": "Cormen, Leiserson, Rivest e Stein",
+          "capitulos": "2 (exercício de busca binária) e 12"
+        }
+      ]
+    },
+    "Algoritmos e ordenação": {
+      "resumo": "Funcionamento, estabilidade e complexidade de bubble, insertion, selection, merge, quick e heap sort, no melhor e no pior caso.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Estrutura de Dados em C: algoritmos de ordenação",
+          "fonte": "Programação Descomplicada",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PL8iN9FQ7_jt6VF821P5sPbg4plqpWKn0x"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Projeto e Análise de Algoritmos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHf0301dOCgw8a2U_G3UcOjh"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Algoritmos: teoria e prática",
+          "fonte": "Cormen, Leiserson, Rivest e Stein",
+          "capitulos": "2, 6, 7 e 8"
+        }
+      ]
+    },
+    "Algoritmos e recursão": {
+      "resumo": "Rastrear chamadas recursivas, montar e resolver recorrências e usar backtracking para explorar soluções, como no Sudoku.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Linguagem C: função recursiva",
+          "fonte": "Programação Descomplicada",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PL8iN9FQ7_jt689UWkf4wnWSHT_puJohh5"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Projeto e Análise de Algoritmos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHf0301dOCgw8a2U_G3UcOjh"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Algoritmos: teoria e prática",
+          "fonte": "Cormen, Leiserson, Rivest e Stein",
+          "capitulos": "4 (divisão e conquista e recorrências)"
+        }
+      ]
+    },
+    "Arquitetura de computadores": {
+      "resumo": "Organização do processador, conjunto de instruções, pipeline, hierarquia de memória e cache, e medidas de desempenho.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Organização de Computadores",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHdG-xUDj6i-HGB7IAsAU-t1"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Sistemas Computacionais",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHc4vnZM_lZmsPy8CaB215cz"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Organização Estruturada de Computadores",
+          "fonte": "Tanenbaum e Austin",
+          "capitulos": "1, 2, 4 e 5"
+        }
+      ]
+    },
+    "Banco de dados": {
+      "resumo": "Modelagem entidade-relacionamento, mapeamento para o modelo relacional, consultas SQL, normalização e transações.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Banco de Dados",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHeZcEzZElhxwsQTf9MaG6sS"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Bancos de Dados (Engenharia de Computação)",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHeHQr2McJ01e-ANyh3K0Lfq"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Sistemas de Banco de Dados",
+          "fonte": "Elmasri e Navathe",
+          "capitulos": "modelo ER, modelo relacional, SQL, normalização e transações"
+        }
+      ]
+    },
+    "Circuitos digitais": {
+      "resumo": "Sistemas de numeração, álgebra booleana, portas lógicas, simplificação com mapa de Karnaugh e circuitos combinacionais e sequenciais.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Circuitos Digitais",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHdjvEPWD0afDXR_34JpsOoD"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Circuitos Lógicos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHdrsrP0u2Hmzd9MBijKZQ7Y"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Organização Estruturada de Computadores",
+          "fonte": "Tanenbaum e Austin",
+          "capitulos": "3 (nível lógico digital)"
+        }
+      ]
+    },
+    "Compiladores": {
+      "resumo": "Fases de um compilador: análise léxica com expressões regulares, análise sintática com gramáticas, tradução e código intermediário.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Linguagens e Compiladores",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHdmCAoLW5KWCG5ZrnfwrWXV"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Compiler Design",
+          "fonte": "Neso Academy",
+          "idioma": "en",
+          "url": "https://www.youtube.com/playlist?list=PLBlnK6fEyqRjT3oJxFXRgjPNzeS-LFY-q"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Compiladores: princípios, técnicas e ferramentas",
+          "fonte": "Aho, Lam, Sethi e Ullman",
+          "capitulos": "1 a 6"
+        }
+      ]
+    },
+    "Complexidade de algoritmos": {
+      "resumo": "Notação assintótica (O, Ω e Θ), contagem de operações, análise de laços e recorrências, e noção de classes P e NP.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Estrutura de Dados em C: análise de algoritmos",
+          "fonte": "Programação Descomplicada",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PL8iN9FQ7_jt6buW7SBD3yzjIp8NnJYrZl"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Projeto e Análise de Algoritmos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHf0301dOCgw8a2U_G3UcOjh"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Algoritmos: teoria e prática",
+          "fonte": "Cormen, Leiserson, Rivest e Stein",
+          "capitulos": "2, 3 e 34"
+        }
+      ]
+    },
+    "Computação gráfica": {
+      "resumo": "Transformações geométricas, modelos de cor e de iluminação, rasterização e o pipeline de geração de imagens.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Computação Gráfica",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHeyMkv9I9msYWrC1YPBJW0p"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Computação Gráfica: teoria e prática",
+          "fonte": "Azevedo e Conci",
+          "capitulos": "transformações geométricas, cor, iluminação e rasterização"
+        }
+      ]
+    },
+    "Engenharia de software": {
+      "resumo": "Modelos de processo, métodos ágeis, requisitos, modelagem UML, padrões de projeto e testes de software.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Engenharia de Software: processos, métodos ágeis e requisitos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHfeoA_yMm9iKJVxQprljmL9"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Engenharia de Software: configuração, integração contínua e testes",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHdXoM3aZ7wthQXn-I_6YQKt"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Engenharia de Software",
+          "fonte": "Sommerville",
+          "capitulos": "2 a 5 e 8"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Engenharia de Software: uma abordagem profissional",
+          "fonte": "Pressman e Maxim",
+          "capitulos": "processos, requisitos, projeto e testes"
+        }
+      ]
+    },
+    "Estruturas de dados": {
+      "resumo": "Pilhas, filas, listas encadeadas, árvores de busca (incluindo AVL e rubro-negra), heaps e tabelas hash, com o custo de cada operação.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Estruturas de Dados",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHex0IsMeE_tzBP0WMYASaQD"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Estrutura de Dados em Linguagem C: curso completo",
+          "fonte": "Programação Descomplicada",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PL8iN9FQ7_jt6H5m4Gm0H89sybzR9yaaka"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Estrutura de Dados",
+          "fonte": "Prof. Douglas Maioli",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLrOyM49ctTx_AMgNGQaic10qQJpTpXfn_"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Algoritmos: teoria e prática",
+          "fonte": "Cormen, Leiserson, Rivest e Stein",
+          "capitulos": "6 e 10 a 13"
+        }
+      ]
+    },
+    "Ética e legislação": {
+      "resumo": "Ética profissional em computação e a LGPD: bases legais, direitos do titular, dados sensíveis e responsabilidades no tratamento de dados.",
+      "recursos": [
+        {
+          "tipo": "texto",
+          "titulo": "Lei nº 13.709/2018 (LGPD), texto compilado",
+          "fonte": "Planalto",
+          "idioma": "pt",
+          "url": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/L13709compilado.htm"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Impactos da Computação na Sociedade",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHfnRpf36l5UZ58_Vz7ma8je"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Proteção de Dados Pessoais: comentários à Lei n. 13.709/2018 (LGPD)",
+          "fonte": "Patricia Peck Pinheiro",
+          "capitulos": "princípios, bases legais e direitos do titular"
+        }
+      ]
+    },
+    "Formação geral": {
+      "resumo": "Não há livro-texto: treine leitura de reportagens sobre atualidades, interpretação de gráficos e tabelas e a escrita de textos dissertativos, que é o formato das duas discursivas.",
+      "recursos": [
+        {
+          "tipo": "texto",
+          "titulo": "Provas e gabaritos do Enade",
+          "fonte": "Inep",
+          "idioma": "pt",
+          "url": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enade/provas-e-gabaritos"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Leitura e Produção de Textos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHcVj5SIwhO9NIyUHH6MCmm6"
+        }
+      ]
+    },
+    "Grafos": {
+      "resumo": "Representação de grafos, buscas em largura e profundidade, ordenação topológica, árvore geradora mínima e caminhos mínimos.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Teoria de Grafos",
+          "fonte": "Prof. Douglas Maioli",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLrOyM49ctTx-xtyVeuO7ylclgXHd4ws9a"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Estrutura de Dados em C: grafos",
+          "fonte": "Programação Descomplicada",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PL8iN9FQ7_jt4oQHq1TSeMgvVdolJvYsLO"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Projeto e Análise de Algoritmos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHf0301dOCgw8a2U_G3UcOjh"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Algoritmos: teoria e prática",
+          "fonte": "Cormen, Leiserson, Rivest e Stein",
+          "capitulos": "22 a 24"
+        }
+      ]
+    },
+    "Inteligência artificial": {
+      "resumo": "Agentes inteligentes, busca cega e heurística, jogos adversariais, lógica e noções de aprendizado de máquina.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Inteligência Artificial",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHfY4b6dAzpH5_Z-gz4wM-Jq"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Aprendizado de Máquinas",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHdkUWAa0HekEhihDEaOsPnM"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Inteligência Artificial",
+          "fonte": "Russell e Norvig",
+          "capitulos": "2 a 5 e 18"
+        }
+      ]
+    },
+    "Interação humano-computador": {
+      "resumo": "Usabilidade e experiência do usuário, design centrado no humano, prototipação e métodos de avaliação de interfaces.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Interfaces Humano-Computador",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHcoiFzGoyLITBKzFbiw3RIp"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Interface Humano-Computador (Tecnologia da Informação)",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHczJzQgf21ypX10GVTGXzM4"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Design de Interação: além da interação humano-computador",
+          "fonte": "Rogers, Sharp e Preece",
+          "capitulos": "design centrado no usuário, prototipação e avaliação"
+        }
+      ]
+    },
+    "Linguagens formais e autômatos": {
+      "resumo": "Expressões regulares, autômatos finitos, gramáticas livres de contexto, autômatos com pilha e máquinas de Turing.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Theory of Computation & Automata Theory",
+          "fonte": "Neso Academy",
+          "idioma": "en",
+          "url": "https://www.youtube.com/playlist?list=PLBlnK6fEyqRgp46KUv4ZY69yXmpwKOIev"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Introdução à Teoria da Computação",
+          "fonte": "Sipser",
+          "capitulos": "0 a 3"
+        }
+      ]
+    },
+    "Lógica matemática": {
+      "resumo": "Lógica proposicional e de predicados, equivalências, tabelas-verdade, quantificadores e técnicas de demonstração.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Fundamentos Matemáticos para Computação",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHfMN2osQotoGDpPhW2XAWqZ"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Lógica e Matemática Discreta",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHf6oB0nf8FwLhqSOcBLqOxH"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Matemática Discreta e suas Aplicações",
+          "fonte": "Rosen",
+          "capitulos": "1 (lógica e demonstrações)"
+        }
+      ]
+    },
+    "Matemática discreta": {
+      "resumo": "Conjuntos, relações (reflexiva, simétrica, transitiva e de equivalência), funções, indução e contagem.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Lógica e Matemática Discreta",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHf6oB0nf8FwLhqSOcBLqOxH"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Fundamentos Matemáticos para Computação",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHfMN2osQotoGDpPhW2XAWqZ"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Matemática Discreta e suas Aplicações",
+          "fonte": "Rosen",
+          "capitulos": "2, 5 e 9"
+        }
+      ]
+    },
+    "Paradigmas de programação": {
+      "resumo": "Características dos paradigmas imperativo, funcional, orientado a objetos e lógico, com atenção a Prolog: fatos, regras, unificação e backtracking.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Fundamentos Matemáticos para Computação",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHfMN2osQotoGDpPhW2XAWqZ"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Prolog (Universidade de Cambridge)",
+          "fonte": "Andrew Rice",
+          "idioma": "en",
+          "url": "https://www.youtube.com/playlist?list=PLFgheI-d1nD47H06F236cp5cFEQE0o8nx"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Conceitos de Linguagens de Programação",
+          "fonte": "Sebesta",
+          "capitulos": "1, 15 e 16"
+        }
+      ]
+    },
+    "Probabilidade e estatística": {
+      "resumo": "Leitura de histogramas e tabelas, medidas de posição e dispersão, probabilidade básica e distribuições.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Estatística e Probabilidade",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHevxab8uTsc_pPzDuL7_i3l"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Modelos Probabilísticos para Computação",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHdDE_-HD2fbVkjiQgsFUXhX"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Estatística Básica",
+          "fonte": "Bussab e Morettin",
+          "capitulos": "2 a 6"
+        }
+      ]
+    },
+    "Processamento de imagens": {
+      "resumo": "Imagem digital, histograma, transformações de intensidade e filtros espaciais, como o filtro de mediana para ruído sal e pimenta.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Visão Computacional",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHfjhwNAEYdbf1ok7Kwfz7kG"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Computação Gráfica",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHeyMkv9I9msYWrC1YPBJW0p"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Processamento Digital de Imagens",
+          "fonte": "Gonzalez e Woods",
+          "capitulos": "2, 3 e 5"
+        }
+      ]
+    },
+    "Programação orientada a objetos": {
+      "resumo": "Classes e objetos, encapsulamento e modificadores de visibilidade, herança, polimorfismo e interfaces.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Programação Orientada a Objetos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHcC0iaIe4ijXkh_iC3hracj"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Java: como programar",
+          "fonte": "Deitel e Deitel",
+          "capitulos": "classes e objetos, herança, polimorfismo e interfaces"
+        }
+      ]
+    },
+    "Projeto de algoritmos": {
+      "resumo": "Técnicas de projeto: divisão e conquista, algoritmos gulosos e programação dinâmica, e como escolher entre elas.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Projeto e Análise de Algoritmos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHf0301dOCgw8a2U_G3UcOjh"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Algoritmos: teoria e prática",
+          "fonte": "Cormen, Leiserson, Rivest e Stein",
+          "capitulos": "4, 15 e 16"
+        }
+      ]
+    },
+    "Redes de computadores": {
+      "resumo": "Modelo em camadas, protocolos de aplicação, TCP e UDP, endereçamento IP e roteamento, dispositivos de rede e detecção de erros.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Redes de Computadores",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHc-_dZ6nsfoon08i2-4OvEk"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Infraestrutura para Sistemas de Software: redes e nuvem",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHcxuC6xd2TlNv_y1Nckluqv"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Redes de Computadores e a Internet",
+          "fonte": "Kurose e Ross",
+          "capitulos": "1 a 6"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Redes de Computadores",
+          "fonte": "Tanenbaum e Wetherall",
+          "capitulos": "camadas física, de enlace, de rede e de transporte"
+        }
+      ]
+    },
+    "Segurança da informação": {
+      "resumo": "Confidencialidade, integridade e disponibilidade, criptografia simétrica e assimétrica, hash, certificados, autenticação e ataques comuns.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Segurança da Informação",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHenoHipBXp9XuJY4BBxBUPQ"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Segurança da Informação: redes, nuvem e ameaças",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHc_kWZ0XOny1Y0LcuU1n_86"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Criptografia e Segurança de Redes",
+          "fonte": "Stallings",
+          "capitulos": "criptografia simétrica e assimétrica, hash, autenticação e segurança de redes"
+        }
+      ]
+    },
+    "Sistemas distribuídos e nuvem": {
+      "resumo": "Arquiteturas cliente-servidor e peer-to-peer, comunicação entre processos, sincronização, replicação e modelos de nuvem.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Sistemas Distribuídos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHdAU8zIvJTKcbhgRyzwjII2"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Infraestrutura para Sistemas de Software: redes e nuvem",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHcxuC6xd2TlNv_y1Nckluqv"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Sistemas Distribuídos: conceitos e projeto",
+          "fonte": "Coulouris, Dollimore, Kindberg e Blair",
+          "capitulos": "modelos de sistema, comunicação, tempo, coordenação e replicação"
+        }
+      ]
+    },
+    "Sistemas operacionais": {
+      "resumo": "Processos e threads, escalonamento, sincronização e impasses, gerenciamento de memória e sistemas de arquivos.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Sistemas Operacionais",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHeK7GUEGxMsqoPRmJKwI9Jw"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Sistemas Operacionais Modernos",
+          "fonte": "Tanenbaum e Bos",
+          "capitulos": "2 a 4 e 6"
+        }
+      ]
+    },
+    "Teoria da computação": {
+      "resumo": "Decidibilidade, redução entre problemas e as classes P, NP e NP-completo, incluindo o que uma redução polinomial implica.",
+      "recursos": [
+        {
+          "tipo": "video",
+          "titulo": "Projeto e Análise de Algoritmos",
+          "fonte": "Univesp",
+          "idioma": "pt",
+          "url": "https://www.youtube.com/playlist?list=PLxI8Can9yAHf0301dOCgw8a2U_G3UcOjh"
+        },
+        {
+          "tipo": "video",
+          "titulo": "Theory of Computation & Automata Theory",
+          "fonte": "Neso Academy",
+          "idioma": "en",
+          "url": "https://www.youtube.com/playlist?list=PLBlnK6fEyqRgp46KUv4ZY69yXmpwKOIev"
+        },
+        {
+          "tipo": "livro",
+          "titulo": "Introdução à Teoria da Computação",
+          "fonte": "Sipser",
+          "capitulos": "3 a 5 e 7"
+        }
+      ]
+    }
+  }
+}
