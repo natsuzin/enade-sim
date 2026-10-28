@@ -114,16 +114,51 @@
         </legend>
         <div class="temas-acoes">
           <button type="button" class="btn ghost" (click)="todosTemas(true)">Marcar todos</button>
+          <button type="button" class="btn ghost" [disabled]="!fracos().length" (click)="marcarFracos()"
+                  [attr.title]="fracos().length ? 'Temas com menos de 50% de acerto nos seus simulados' : 'Entregue um simulado para saber seus pontos fracos'">Marcar meus pontos fracos</button>
           <button type="button" class="btn ghost" [disabled]="!temas().length" (click)="todosTemas(false)">Limpar</button>
         </div>
-        <div class="temas-lista">
-          @for (t of treino.temas(); track t.tema) {
-            <label class="tema-op" [class.on]="temas().includes(t.tema)">
-              <input type="checkbox" [checked]="temas().includes(t.tema)" (change)="alternarTema(t.tema)">
-              <span class="tema-n">{{ t.tema }}</span><span class="pill">{{ t.total }}</span>
+        <ng-template #grupoTpl let-g>
+          <div class="grupo" [class.on]="marcadosNoGrupo(g.temas) === g.temas.length">
+            <label class="grupo-top">
+              <input type="checkbox" [checked]="marcadosNoGrupo(g.temas) === g.temas.length"
+                     [indeterminate]="marcadosNoGrupo(g.temas) > 0 && marcadosNoGrupo(g.temas) < g.temas.length" (change)="alternarGrupo(g.temas)">
+              <span class="tema-n">{{ g.grupo }}</span>
+              @if (g.temas.length === 1 && treino.desempenho().get(g.temas[0].tema); as d) {
+                <span class="taxa {{ classeBarra(d.taxa) }}" [attr.title]="d.acertos + ' de ' + d.total + ' nos simulados'">{{ pct(d.acertos, d.total) }}%</span>
+              }
+              <span class="pill">{{ g.total }}</span>
             </label>
+            @if (g.temas.length > 1) {
+              <div class="grupo-temas">
+                @for (t of g.temas; track t.tema) {
+                  <label class="tema-op" [class.on]="temas().includes(t.tema)">
+                    <input type="checkbox" [checked]="temas().includes(t.tema)" (change)="alternarTema(t.tema)">
+                    <span class="tema-n">{{ t.tema }}</span>
+                    @if (treino.desempenho().get(t.tema); as d) {
+                      <span class="taxa {{ classeBarra(d.taxa) }}" [attr.title]="d.acertos + ' de ' + d.total + ' nos simulados'">{{ pct(d.acertos, d.total) }}%</span>
+                    }
+                    <span class="pill">{{ t.total }}</span>
+                  </label>
+                }
+              </div>
+            }
+          </div>
+        </ng-template>
+
+        @if (grupoFG(); as fg) {
+          <h3 class="area-t">Formação geral</h3>
+          <div class="grupo-fg"><ng-container *ngTemplateOutlet="grupoTpl; context: { $implicit: fg }" /></div>
+        }
+        <h3 class="area-t">Componente específico</h3>
+        <div class="grupos">
+          @for (g of gruposCE(); track g.grupo) {
+            <ng-container *ngTemplateOutlet="grupoTpl; context: { $implicit: g }" />
           }
         </div>
+        @if (treino.desempenho().size) {
+          <p class="muted temas-nota">A porcentagem é o seu acerto em cada tema nos simulados entregues.</p>
+        }
       </fieldset>
     } @else {
       <div class="field">

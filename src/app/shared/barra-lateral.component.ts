@@ -25,9 +25,11 @@ export class BarraLateralComponent {
 
   itens: Item[] = [
     { rota: '/', rotulo: 'Simulado', icone: 'M12 7v5l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-      ativo: u => u === '/' || u.startsWith('/prova') || u.startsWith('/resultado') },
+      ativo: u => u === '/' || u.split('?')[0] === '/prova' || u.startsWith('/resultado') },
     { rota: '/treino', rotulo: 'Treino', icone: 'M4 5h11a3 3 0 013 3v11H7a3 3 0 01-3-3V5zM8 9h6M8 13h4',
       ativo: u => u.startsWith('/treino') },
+    { rota: '/provas', rotulo: 'Provas', icone: 'M7 3h7l5 5v13H7a2 2 0 01-2-2V5a2 2 0 012-2zM14 3v5h5M9 13h6M9 17h6',
+      ativo: u => u.startsWith('/provas') },
     { rota: '/historico', rotulo: 'Histórico', icone: 'M4 19V9m6 10V5m6 14v-7m4 7H3',
       ativo: u => u.startsWith('/historico') },
   ];

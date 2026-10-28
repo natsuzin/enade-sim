@@ -1,0 +1,82 @@
+@if (!ano()) {
+<div class="wrap">
+  <header class="page-head">
+    <h1>Provas</h1>
+    <p>Consulte as provas completas do ENADE na ordem original, com a alternativa certa assinalada, a explicação de cada questão e o padrão de resposta das discursivas.</p>
+  </header>
+
+  <div class="provas-lista">
+    @for (p of provas(); track p.ano) {
+      <a class="panel prova-card" [routerLink]="['/provas', p.ano]">
+        <span class="prova-ano">ENADE {{ p.ano }}</span>
+        <span class="muted">{{ p.objetivas }} objetivas e {{ p.discursivas }} discursivas</span>
+        <span class="prova-ir">Abrir prova <span aria-hidden="true">→</span></span>
+      </a>
+    }
+  </div>
+</div>
+} @else {
+<div class="wrap">
+  <header class="page-head">
+    <a class="btn ghost voltar" routerLink="/provas"><span aria-hidden="true">←</span> Todas as provas</a>
+    <h1>ENADE {{ ano() }}</h1>
+    <p>Ciência da Computação, bacharelado. {{ questoes().length }} questões na ordem da prova.</p>
+  </header>
+
+  @if (questoes().length === 0) {
+    <div class="empty" style="margin:28px 0 56px">Essa prova não está no banco. <a class="btn ghost" routerLink="/provas">Ver as provas disponíveis</a></div>
+  } @else {
+    <section class="panel prova-indice" aria-label="Índice da prova">
+      <div class="prova-barra">
+        <div class="chips" role="group" aria-label="Trocar de prova">
+          @for (p of provas(); track p.ano) {
+            <a [routerLink]="['/provas', p.ano]" [attr.aria-current]="'' + p.ano === ano() ? 'page' : null">{{ p.ano }}</a>
+          }
+        </div>
+        <label class="check" style="margin:0">
+          <input type="checkbox" [checked]="gabarito()" (change)="gabarito.set(!gabarito())">
+          <span>Mostrar respostas</span>
+        </label>
+      </div>
+      @for (s of secoes(); track s.area) {
+        <h3>{{ s.titulo }}</h3>
+        <div class="res-grid">
+          @for (q of s.itens; track q.id) {
+            <button class="cell" [class.disc]="q.tipo === 'disc'" (click)="irPara(q)"
+                    [attr.aria-label]="(q.tipo === 'disc' ? 'Discursiva ' : 'Questão ') + q.n">{{ rotulo(q) }}</button>
+          }
+        </div>
+      }
+    </section>
+
+    <div appZoomFiguras>
+      @for (s of secoes(); track s.area) {
+        <h2 class="secao-t">{{ s.titulo }}</h2>
+        @for (q of s.itens; track q.id) {
+          <article class="rcard" [class.discc]="q.tipo === 'disc'" [id]="'q-' + q.id">
+            <div class="rtop">
+              <h3>{{ q.tipo === 'disc' ? 'Discursiva ' + q.n : 'Questão ' + q.n }}</h3>
+              <span class="tag" [class.fg]="q.area === 'fg'">{{ q.tema }}</span>
+            </div>
+            <div class="enun" style="margin-top:14px" [innerHTML]="q.enunciadoHtml"></div>
+            @if (q.tipo === 'obj') {
+              <ol class="opts" aria-label="Alternativas">
+                @for (alt of q.alternativasHtml; track $index) {
+                  <li class="opt" [class.ok]="gabarito() && LETRAS[$index] === q.resposta">
+                    <span class="let">{{ LETRAS[$index] }}</span><span class="txt" [innerHTML]="alt"></span>
+                    @if (gabarito() && LETRAS[$index] === q.resposta) { <span class="sr-only">(alternativa correta)</span> }
+                  </li>
+                }
+              </ol>
+              @if (gabarito() && q.explicacao) { <div class="why"><b>Por que é a {{ q.resposta }}:</b> {{ q.explicacao }}</div> }
+            } @else if (gabarito() && q.padraoHtml) {
+              <div class="padrao"><h4>Padrão de resposta</h4><div class="enun" [innerHTML]="q.padraoHtml"></div></div>
+            }
+          </article>
+        }
+      }
+    </div>
+    <div style="height:40px"></div>
+  }
+</div>
+}

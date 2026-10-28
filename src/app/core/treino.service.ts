@@ -2,6 +2,7 @@ import { Injectable, computed, inject } from '@angular/core';
 import { ArmazenamentoService } from './armazenamento.service';
 import { BancoService } from './banco.service';
 import { Questao, TreinoAtual } from './modelos';
+import { desempenhoPorTema } from './avaliacao';
 
 export type ModoTreino = TreinoAtual['modo'];
 
@@ -30,6 +31,19 @@ export class TreinoService {
     for (const q of this.banco.questoes()) cont.set(q.tema, (cont.get(q.tema) ?? 0) + 1);
     return [...cont].map(([tema, total]) => ({ tema, total })).sort((a, b) => a.tema.localeCompare(b.tema, 'pt-BR'));
   });
+
+  /** Temas reunidos por grande área: Formação geral primeiro, depois as áreas com mais temas (equilibra a grade). */
+  readonly grupos = computed(() => {
+    const grupoDe = new Map(this.banco.questoes().map(q => [q.tema, q.grupo]));
+    const m = new Map<string, { tema: string; total: number }[]>();
+    for (const t of this.temas()) { const g = grupoDe.get(t.tema)!; m.set(g, [...(m.get(g) ?? []), t]); }
+    return [...m].map(([grupo, temas]) => ({ grupo, temas, total: temas.reduce((s, t) => s + t.total, 0) }))
+      .sort((a, b) => Number(b.grupo === 'Formação geral') - Number(a.grupo === 'Formação geral') || b.temas.length - a.temas.length || b.total - a.total);
+  });
+
+  /** Aproveitamento nas objetivas de cada tema, somando os simulados entregues. */
+  readonly desempenho = computed(() =>
+    new Map(desempenhoPorTema(this.store.estado().historico, this.banco.porId()).map(d => [d.tema, d])));
 
   /** Questões que entram num treino com esse filtro. */
   filtrar(modo: ModoTreino, filtros: string[], comDiscursivas: boolean): Questao[] {

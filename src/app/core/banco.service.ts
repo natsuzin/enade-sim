@@ -36,7 +36,7 @@ export class BancoService {
         for (const q of prova.questoes) {
           if (q.tipo === 'obj' && prova.anuladas.includes(q.n)) continue;
           lista.push({
-            id: q.id, ano: prova.ano, n: q.n, area: q.area, tipo: q.tipo, tema: q.tema,
+            id: q.id, ano: prova.ano, n: q.n, area: q.area, tipo: q.tipo, tema: q.tema, grupo: q.grupo ?? 'Outros',
             enunciadoHtml: markupParaHtml(q.enunciado),
             alternativasHtml: (q.alternativas ?? []).map(alternativaParaHtml),
             resposta: q.resposta, explicacao: q.explicacao,

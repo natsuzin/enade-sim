@@ -11,6 +11,8 @@ export interface QuestaoFonte {
   area: Area;
   tipo: Tipo;
   tema: string;
+  /** Grande área que agrupa temas próximos (usada no Treino). */
+  grupo: string;
   enunciado: string;
   alternativas?: string[];
   resposta?: Letra;
@@ -34,6 +36,7 @@ export interface Questao {
   area: Area;
   tipo: Tipo;
   tema: string;
+  grupo: string;
   enunciadoHtml: string;
   alternativasHtml: string[];
   resposta?: Letra;

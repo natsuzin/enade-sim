@@ -36,7 +36,7 @@ src/
   styles.css                     # tokens de cor (claro/escuro) e todos os estilos
   app/
     app.config.ts                # providers; carrega o banco antes de abrir o app
-    app.routes.ts                # '', 'prova', 'resultado/:id', 'treino', 'historico' (lazy loading)
+    app.routes.ts                # '', 'prova', 'resultado/:id', 'treino', 'provas/:ano', 'historico' (lazy loading)
     core/
       modelos.ts                 # interfaces (Questao, SimuladoAtual, Resultado...)
       markup.ts                  # converte o markup dos JSON em HTML
@@ -48,7 +48,7 @@ src/
       exportacao.service.ts      # relatório .html, planilha .csv, backup .json
       formatos.ts                # formatação de datas, tempos e números
     shared/
-      barra-lateral.component.ts # navegação entre Simulado, Treino e Histórico
+      barra-lateral.component.ts # navegação entre Simulado, Treino, Provas e Histórico
       confirmacao.component.ts   # modal de confirmação
       grafico-evolucao.component.ts  # gráfico SVG do histórico
       aviso.service.ts           # mensagens (toast)
@@ -58,6 +58,7 @@ src/
       prova/                     # questão, cartão-resposta, cronômetro
       resultado/                 # correção, discursivas, exportação
       treino/                    # escolha do tema/ano e prática com correção na hora
+      provas/                    # prova completa de um ano, com gabarito assinalado
 ```
 
 ## Como o simulado funciona
@@ -70,7 +71,7 @@ src/
 
 ## Como o treino funciona
 
-- Escolha **um ou mais temas** ou **a prova de um ano**; opcionalmente inclua as discursivas e embaralhe a ordem.
+- Escolha **um ou mais temas** (agrupados por grande área, com atalho para marcar os temas com menos de 50% de acerto nos simulados) ou **a prova de um ano**; opcionalmente inclua as discursivas e embaralhe a ordem.
 - Sem cronômetro e sem nota: cada objetiva é corrigida ao responder, com a explicação logo abaixo; nas discursivas você abre o padrão de resposta quando quiser.
 - O progresso fica salvo em `treino` no armazenamento. Treinos não entram no histórico nem alteram o sorteio do simulado.
 
@@ -89,13 +90,14 @@ src/
       "area": "ce",               // "fg" (formação geral) ou "ce" (componente específico)
       "tipo": "obj",              // "obj" ou "disc"
       "tema": "Estruturas de dados",  // usado nas estatísticas por tema
+      "grupo": "Algoritmos e estruturas de dados",  // grande área que reúne temas no Treino
       "enunciado": "texto em markup",
       "alternativas": ["A...", "B...", "C...", "D...", "E..."],
       "resposta": "A",
       "explicacao": "por que a resposta certa é a certa"
     },
     {
-      "id": "2017-d3", "n": 3, "area": "ce", "tipo": "disc", "tema": "Estruturas de dados",
+      "id": "2017-d3", "n": 3, "area": "ce", "tipo": "disc", "tema": "Estruturas de dados", "grupo": "Algoritmos e estruturas de dados",
       "enunciado": "...",
       "padraoResposta": "texto em markup"
     }

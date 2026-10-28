@@ -1,8 +1,10 @@
 import { Component, HostListener, OnDestroy, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NgTemplateOutlet } from '@angular/common';
 import { BancoService } from '../../core/banco.service';
 import { ModoTreino, TreinoService } from '../../core/treino.service';
 import { nomeArea, pct } from '../../core/formatos';
+import { classeBarra } from '../../core/avaliacao';
 import { LETRAS, Letra, Questao } from '../../core/modelos';
 import { ConfirmacaoComponent } from '../../shared/confirmacao.component';
 import { ZoomFigurasDirective } from '../../shared/zoom';
@@ -10,7 +12,7 @@ import { rolarParaTopo } from '../../shared/rolagem';
 
 @Component({
   selector: 'app-treino',
-  imports: [FormsModule, ConfirmacaoComponent, ZoomFigurasDirective],
+  imports: [FormsModule, NgTemplateOutlet, ConfirmacaoComponent, ZoomFigurasDirective],
   templateUrl: './treino.component.html',
 })
 export class TreinoComponent implements OnDestroy {
@@ -18,7 +20,7 @@ export class TreinoComponent implements OnDestroy {
   treino = inject(TreinoService);
 
   readonly LETRAS = LETRAS;
-  nomeArea = nomeArea; pct = pct;
+  nomeArea = nomeArea; pct = pct; classeBarra = classeBarra;
 
   // Configuração de um novo treino
   modo = signal<ModoTreino>('tema');
@@ -69,6 +71,22 @@ export class TreinoComponent implements OnDestroy {
     this.temas.update(l => l.includes(tema) ? l.filter(x => x !== tema) : [...l, tema]);
   }
   todosTemas(marcar: boolean): void { this.temas.set(marcar ? this.treino.temas().map(t => t.tema) : []); }
+
+  /** Quantos temas do grupo estão marcados: todos, alguns ou nenhum. */
+  marcadosNoGrupo(temas: { tema: string }[]): number { return temas.filter(t => this.temas().includes(t.tema)).length; }
+  alternarGrupo(temas: { tema: string }[]): void {
+    const nomes = temas.map(t => t.tema);
+    const todos = this.marcadosNoGrupo(temas) === temas.length;
+    this.temas.update(l => todos ? l.filter(x => !nomes.includes(x)) : [...new Set([...l, ...nomes])]);
+  }
+
+  /** Formação geral fica numa faixa própria; os grupos do componente específico vão para a grade. */
+  grupoFG = computed(() => this.treino.grupos().find(g => g.grupo === 'Formação geral'));
+  gruposCE = computed(() => this.treino.grupos().filter(g => g.grupo !== 'Formação geral'));
+
+  /** Temas com menos de 50% de acerto nos simulados entregues. */
+  fracos = computed(() => [...this.treino.desempenho().values()].filter(d => d.taxa < 0.5).map(d => d.tema));
+  marcarFracos(): void { this.temas.set(this.fracos()); }
 
   comecar(): void {
     if (!this.disponiveis()) return;

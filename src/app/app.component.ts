@@ -31,5 +31,5 @@ export class AppComponent {
     this.router.events.pipe(filter(e => e instanceof NavigationEnd), map(() => { rolarParaTopo(); return this.router.url; })),
     { initialValue: this.router.url });
   /** Durante a prova o app esconde cabeçalho e barra lateral (modo foco). */
-  foco = computed(() => this.url().startsWith('/prova'));
+  foco = computed(() => this.url().split('?')[0] === '/prova');
 }

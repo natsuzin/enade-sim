@@ -11,7 +11,7 @@ import { AvisoService } from './aviso.service';
   template: `
     <header class="site-head">
       <div class="wrap">
-        <a class="logo" routerLink="/" (click)="menuAberto.set(false)"><span class="logo-t">Simulado <b>ENADE</b></span><span class="logo-s">Ciência da Computação, bacharelado</span></a>
+        <div class="logo"><a class="logo-t" routerLink="/" (click)="menuAberto.set(false)">Simulado <b>ENADE</b></a><span class="logo-s">Ciência da Computação, bacharelado</span></div>
         <button class="btn icon menu-toggle" [attr.aria-expanded]="menuAberto()" aria-controls="acoes-cab"
                 aria-label="Menu" (click)="menuAberto.set(!menuAberto())">
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path [attr.d]="menuAberto() ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16'" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
@@ -66,14 +66,22 @@ export class CabecalhoComponent {
     try {
       const d = JSON.parse(await arq.text());
       if (!Array.isArray(d.historico)) throw new Error('formato');
-      let n = 0;
+      let n = 0, repetidos = 0;
       this.store.atualizar(s => {
         const ids = new Set(s.historico.map(x => x.id));
-        for (const r of d.historico) if (r?.id && Array.isArray(r.qids) && !ids.has(r.id)) { s.historico.push(r); n++; }
+        for (const r of d.historico) {
+          if (!r?.id || !Array.isArray(r.qids)) continue;
+          if (ids.has(r.id)) { repetidos++; continue; }
+          s.historico.push(r); ids.add(r.id); n++;
+        }
         s.historico.sort((a, b) => a.data - b.data);
         for (const [k, v] of Object.entries<number>(d.vistas ?? {})) s.vistas[k] = Math.max(s.vistas[k] ?? 0, v);
       });
-      this.aviso.mostrar(n ? `${n} simulado(s) importado(s).` : 'Nenhum simulado novo nesse arquivo.');
+      const jaSalvos = repetidos ? `${repetidos} já estava(m) salvo(s) neste navegador` : '';
+      this.aviso.mostrar(
+        n ? `${n} simulado(s) importado(s)${jaSalvos ? '; ' + jaSalvos : ''}.`
+          : repetidos ? `Os ${repetidos} simulado(s) desse backup já estão neste navegador.`
+          : 'Esse backup não tem simulados.', 4500);
     } catch { this.aviso.mostrar('Esse arquivo não é um backup deste simulador.'); }
     campo.value = '';
     this.menuAberto.set(false);

@@ -16,6 +16,8 @@ for (const curso of indice.provas) {
       if (ids.has(q.id)) falha(`${ref}: id repetido`); ids.add(q.id);
       if (!['fg', 'ce'].includes(q.area)) falha(`${ref}: area inválida`);
       if (!['obj', 'disc'].includes(q.tipo)) falha(`${ref}: tipo inválido`);
+      if (!q.tema?.trim()) falha(`${ref}: sem tema`);
+      if (!q.grupo?.trim()) falha(`${ref}: sem grupo`);
       if (!q.enunciado?.trim()) falha(`${ref}: enunciado vazio`);
       if (q.tipo === 'obj') {
         if (q.alternativas?.length !== 5) falha(`${ref}: precisa de 5 alternativas`);

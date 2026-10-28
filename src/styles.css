@@ -26,9 +26,11 @@
 *,*::before,*::after{box-sizing:inherit}
 html,body{height:100%}
 body{overflow:hidden}
-*{scrollbar-width:thin;scrollbar-color:var(--scroll) transparent}
+/* Chrome/Edge ignoram ::-webkit-scrollbar se scrollbar-color estiver definido, então o padrão fica só no Firefox. */
+@supports (-moz-appearance:none){*{scrollbar-width:thin;scrollbar-color:var(--scroll) transparent}}
 ::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-button{display:none;width:0;height:0}
+::-webkit-scrollbar-track,::-webkit-scrollbar-corner{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--scroll);border-radius:99px;border:2px solid transparent;background-clip:padding-box}
 ::-webkit-scrollbar-thumb:hover{background-color:var(--scroll-hover)}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -40,6 +42,7 @@ img{max-width:100%;height:auto}
 .wrap{--gutter:clamp(20px,3vw,48px);max-width:1640px;margin:0 auto;padding:0 var(--gutter)}
 .muted{color:var(--muted)}
 .hidden{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ---------- buttons ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 16px;font-weight:700;font-size:15px;transition:background .15s,border-color .15s}
@@ -57,8 +60,8 @@ img{max-width:100%;height:auto}
 /* ---------- site header ---------- */
 .site-head{position:relative;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
 .site-head .wrap{display:flex;align-items:center;gap:12px;min-height:60px}
-.logo{display:flex;align-items:baseline;gap:6px 20px;flex-wrap:wrap;text-decoration:none;color:var(--text);margin-right:auto;padding:6px 0;min-width:0}
-.logo-t{font-size:19px;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap}
+.logo{display:flex;align-items:baseline;gap:6px 20px;flex-wrap:wrap;color:var(--text);margin-right:auto;padding:6px 0;min-width:0}
+.logo-t{font-size:19px;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap;color:var(--text);text-decoration:none}
 .logo-t b{color:var(--accent-ink)}
 .logo-s{font-size:14px;color:var(--muted);padding-left:20px;border-left:1px solid var(--line);line-height:1.2}
 .head-actions{display:flex;align-items:center;gap:4px}
@@ -85,7 +88,7 @@ app-barra-lateral{display:block;min-height:0;overflow-y:auto;background:var(--su
 /* Cabeçalho padrão de todas as páginas */
 .page-head{padding:32px 0 0}
 .page-head h1{font-size:clamp(28px,3.4vw,36px);font-weight:700;margin:0;line-height:1.15;letter-spacing:-.01em}
-.page-head p{max-width:68ch;font-size:17px;color:var(--muted);margin:8px 0 0}
+.page-head p{font-size:17px;color:var(--muted);margin:8px 0 0}
 .page-head .voltar{margin:0 0 6px -12px}
 .home-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;margin:28px 0 40px;align-items:start}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
@@ -137,17 +140,29 @@ a.btn{text-decoration:none;color:var(--text)}
 .temas-top{padding:0;margin-bottom:6px}
 .temas-acoes{display:flex;gap:4px;margin:0 0 8px -12px}
 .temas-acoes .btn{font-size:14px;padding:6px 12px}
-.temas-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:2px 6px;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.area-t{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+.grupo-fg{max-width:calc((100% - 24px) / 3)}
+.grupos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.grupo{padding:6px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.grupo.on{border-color:var(--accent)}
+.grupo-top{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;cursor:pointer;font-weight:700;font-size:15.5px;line-height:1.3}
+.grupo-top:hover{background:var(--surface)}
+.grupo-top input{width:18px;height:18px;margin:0;flex:none;accent-color:var(--accent)}
+.grupo-temas{display:flex;flex-direction:column;gap:2px;margin:2px 0 0;padding:4px 0 0;border-top:1px solid var(--line)}
+.grupo-temas .tema-op{font-weight:400;padding-left:28px}
+.taxa{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.taxa.ok{color:var(--ok)} .taxa.mid{color:var(--warn)} .taxa.bad{color:var(--err)}
+.temas-nota{font-size:13px;margin:0}
 .tema-op{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:9px;border:1.5px solid transparent;cursor:pointer;font-size:15px;line-height:1.3}
 .tema-op:hover{background:var(--surface)}
 .tema-op.on{background:var(--accent-soft);border-color:var(--accent)}
 .tema-op input{width:18px;height:18px;margin:0;flex:none;accent-color:var(--accent)}
 .tema-n{flex:1;min-width:0}
-.lbl-f{font-weight:700;font-size:15px}
+.lbl-f{font-weight:700;font-size:17px}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
-.chips button{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:8px 16px;font-weight:700;font-size:15px}
-.chips button:hover{border-color:var(--accent)}
-.chips button[aria-checked="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.chips button,.chips a{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:8px 16px;font-weight:700;font-size:15px;color:var(--text);text-decoration:none}
+.chips button:hover,.chips a:hover{border-color:var(--accent)}
+.chips button[aria-checked="true"],.chips a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .placar{font-size:15px;color:var(--muted);white-space:nowrap}
 .placar b{color:var(--ok);font-size:20px;font-variant-numeric:tabular-nums}
 .opt:disabled{cursor:default;color:inherit}
@@ -161,6 +176,22 @@ a.btn{text-decoration:none;color:var(--text)}
 .feedback.ok{background:var(--ok-soft);color:var(--ok)}
 .cell.done.disc{background:var(--accent);border-color:var(--accent)}
 .sheet .fim{font-size:15px;margin:16px 0 0;font-weight:700}
+
+/* ---------- provas ---------- */
+.provas-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:24px;margin:28px 0 56px}
+.prova-card{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--text);transition:border-color .15s}
+.prova-card:hover{border-color:var(--accent)}
+.prova-ano{font-size:21px;font-weight:700}
+.prova-card .muted{font-size:15px}
+.prova-ir{margin-top:14px;font-weight:700;font-size:15px;color:var(--accent-ink)}
+.prova-indice{margin:28px 0 8px}
+.prova-indice h3{font-size:13px;color:var(--muted);font-weight:400;margin:18px 0 0}
+.prova-indice .res-grid{grid-template-columns:repeat(auto-fill,minmax(40px,1fr));margin-top:8px}
+.prova-barra{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;flex-wrap:wrap}
+.secao-t{font-size:21px;margin:32px 0 14px}
+li.opt{cursor:default}
+li.opt:hover{border-color:transparent}
+li.opt.ok:hover{border-color:var(--ok)}
 
 /* ---------- exam ---------- */
 .topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--surface);border-bottom:1px solid var(--line)}
@@ -297,6 +328,10 @@ details.enun-d .enun{margin-top:12px}
 .zoom img{max-width:min(1100px,96vw);max-height:90vh;background:#fff;border-radius:10px;padding:8px}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:70;background:var(--text);color:var(--bg);padding:12px 18px;border-radius:12px;font-size:15px;max-width:90vw;box-shadow:0 8px 30px rgba(0,0,0,.2)}
 
+@media (max-width:1200px){
+  .grupos{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grupo-fg{max-width:calc((100% - 12px) / 2)}
+}
 @media (max-width:900px){
   .layout{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
   .layout.foco{grid-template-rows:minmax(0,1fr)}
@@ -324,6 +359,8 @@ details.enun-d .enun{margin-top:12px}
   .head-scrim{display:block;position:fixed;inset:0;z-index:39;background:rgba(10,18,25,.3)}
 }
 @media (max-width:560px){
+  .grupos{grid-template-columns:minmax(0,1fr)}
+  .grupo-fg{max-width:none}
   body{font-size:16px}
   .wrap{--gutter:14px}
   .site-head .wrap{min-height:54px;padding-right:6px}
