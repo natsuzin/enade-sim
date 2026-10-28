@@ -1,6 +1,7 @@
 <div class="wrap">
-  <header class="home-head">
-    <p class="lede">Questões reais das provas de {{ banco.anos().join(', ') }}, sorteadas a cada tentativa, com cronômetro de prova, correção comentada e histórico da sua evolução.</p>
+  <header class="page-head">
+    <h1>Simulado</h1>
+    <p>Questões reais das provas de {{ banco.anos().join(', ') }}, sorteadas a cada tentativa, com cronômetro de prova, correção comentada e histórico da sua evolução.</p>
   </header>
 
   @if (banco.erro(); as erro) { <div class="empty">{{ erro }}</div> }

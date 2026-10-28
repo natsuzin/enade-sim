@@ -1,7 +1,7 @@
 @if (resultado(); as r) { @if (av(); as e) {
 <div class="wrap">
-  <header class="res-head">
-    <button class="btn ghost" style="margin-left:-12px" (click)="inicio()">Voltar ao início</button>
+  <header class="page-head">
+    <button class="btn ghost voltar" (click)="inicio()"><span aria-hidden="true">←</span> Voltar ao início</button>
     <h1>Resultado do simulado</h1>
     <p>{{ fmtData(r.data) }}, {{ fmtDur(r.duracao) }} de prova{{ r.esgotouTempo ? ' (entregue ao fim do tempo)' : '' }}</p>
   </header>

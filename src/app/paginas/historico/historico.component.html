@@ -1,11 +1,11 @@
 <div class="wrap">
-  <header class="res-head">
+  <header class="page-head">
     <h1>Histórico</h1>
     <p>Seus simulados entregues e o desempenho por tema somando todos eles.</p>
   </header>
 
   @if (historico().length === 0) {
-    <div class="empty" style="margin:22px 0 56px">Nenhum simulado entregue ainda. Quando você entregar um, ele aparece aqui com a nota estimada e os temas em que você mais erra.
+    <div class="empty" style="margin:28px 0 56px">Nenhum simulado entregue ainda. Quando você entregar um, ele aparece aqui com a nota estimada e os temas em que você mais erra.
       <a class="btn ghost" routerLink="/">Começar um simulado</a></div>
   } @else {
     <div class="hist-grid">

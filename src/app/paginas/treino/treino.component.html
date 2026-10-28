@@ -1,0 +1,153 @@
+@if (atual(); as t) {
+<div class="topbar">
+  <div class="wrap">
+    <div class="who"><b>{{ t.indice + 1 }}</b> de {{ t.qids.length }}<span class="who-x"> · {{ titulo() }}</span></div>
+    <div class="placar"><b>{{ acertos() }}</b> de {{ respondidasObj() }}<span class="who-x"> acertos</span></div>
+    <button class="btn sheet-toggle" [attr.aria-expanded]="cartaoAberto()" aria-controls="cartao" (click)="cartaoAberto.set(!cartaoAberto())">Questões</button>
+  </div>
+  <div class="rail"><i [style.width.%]="conferidas() / t.qids.length * 100"></i></div>
+</div>
+
+<div class="wrap exam">
+  <main aria-live="polite">
+    @if (questao(); as q) {
+      <div class="qhead">
+        <h1 class="qnum">{{ q.tipo === 'disc' ? 'Discursiva' : 'Questão' }} {{ q.n }} <span class="muted" style="font-weight:400">· ENADE {{ q.ano }}</span></h1>
+        <span class="tag" [class.fg]="q.area === 'fg'">{{ t.modo === 'ano' || t.filtros.length > 1 ? q.tema : nomeArea(q.area) }}</span>
+      </div>
+      <article class="qbody" appZoomFiguras>
+        <div class="enun" [innerHTML]="q.enunciadoHtml"></div>
+        @if (q.tipo === 'obj') {
+          <ol class="opts" role="radiogroup" aria-label="Alternativas">
+            @for (alt of q.alternativasHtml; track $index) {
+              <li><button class="opt {{ classeOpcao(LETRAS[$index]) }}" role="radio" [disabled]="conferida()"
+                          [attr.aria-checked]="respostaAtual() === LETRAS[$index]" (click)="escolher(LETRAS[$index])">
+                <span class="let">{{ LETRAS[$index] }}</span><span class="txt" [innerHTML]="alt"></span>
+              </button></li>
+            }
+          </ol>
+          @if (conferida()) {
+            <div class="feedback" [class.ok]="respostaAtual() === q.resposta" role="status">
+              {{ respostaAtual() === q.resposta ? 'Você acertou.' : 'Resposta certa: ' + q.resposta + '.' }}
+            </div>
+            @if (q.explicacao) { <div class="why"><b>Por que é a {{ q.resposta }}:</b> {{ q.explicacao }}</div> }
+          }
+        } @else {
+          <div class="disc-area">
+            <label for="ta" class="muted" style="font-size:14px">Sua resposta (opcional: escreva antes de conferir o padrão)</label>
+            <textarea id="ta" spellcheck="true" [value]="respostaAtual()" [readOnly]="conferida()" (input)="digitar($any($event.target).value)"></textarea>
+          </div>
+          @if (conferida()) {
+            <div class="padrao"><h4>Padrão de resposta</h4><div class="enun" [innerHTML]="q.padraoHtml"></div></div>
+          } @else {
+            <button class="btn" style="margin-top:14px" (click)="verPadrao()">Ver padrão de resposta</button>
+          }
+        }
+      </article>
+      <div class="qnav">
+        <button class="btn" [disabled]="t.indice === 0" (click)="mover(-1)" aria-label="Questão anterior"><span aria-hidden="true">←</span><span class="lbl">Anterior</span></button>
+        <button class="flag" (click)="confirmarEncerrar.set(true)">Encerrar treino</button>
+        @if (t.indice < t.qids.length - 1) {
+          <button class="btn primary" (click)="mover(1)" aria-label="Próxima questão"><span class="lbl">Próxima</span><span aria-hidden="true">→</span></button>
+        } @else {
+          <button class="btn primary" [disabled]="!terminou()" (click)="encerrar()">Concluir</button>
+        }
+      </div>
+      @if (q.tipo === 'obj') {
+        <p class="kbd">Atalhos: <kbd>A</kbd>–<kbd>E</kbd> respondem, <kbd>←</kbd> <kbd>→</kbd> mudam de questão.</p>
+      }
+    }
+  </main>
+
+  @if (cartaoAberto()) { <div class="sheet-scrim" (click)="cartaoAberto.set(false)"></div> }
+  <aside id="cartao" class="sheet" [class.open]="cartaoAberto()" aria-label="Questões do treino">
+    <div class="sheet-top">
+      <h2>{{ titulo() }}</h2>
+      <button class="btn icon sheet-close" aria-label="Fechar lista de questões" (click)="cartaoAberto.set(false)">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      </button>
+    </div>
+    <p class="prog">{{ conferidas() }} de {{ t.qids.length }} feitas{{ respondidasObj() ? ' · ' + pct(acertos(), respondidasObj()) + '% de acerto' : '' }}</p>
+    <div class="grid">
+      @for (it of itens(); track it.id) {
+        <button class="cell {{ it.status }}" [class.disc]="it.q.tipo === 'disc'" [class.cur]="it.i === t.indice"
+                (click)="irPara(it.i)" [attr.aria-label]="'Questão ' + (it.i + 1)">{{ it.i + 1 }}</button>
+      }
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--ok);border-color:var(--ok)"></i>certa</span>
+      <span><i style="background:var(--err);border-color:var(--err)"></i>errada</span>
+      <span><i></i>a fazer</span>
+    </div>
+    @if (terminou()) {
+      <p class="fim">Treino concluído: {{ acertos() }} de {{ objetivas().length }} objetivas certas.</p>
+      <button class="btn primary" (click)="encerrar()">Novo treino</button>
+    } @else {
+      <button class="btn" (click)="confirmarEncerrar.set(true)">Encerrar treino</button>
+    }
+  </aside>
+</div>
+
+@if (confirmarEncerrar()) {
+  <app-confirmacao titulo="Encerrar o treino?" mensagem="O treino não vai para o histórico. Você pode começar outro em seguida."
+    textoConfirmar="Encerrar" textoCancelar="Continuar treinando"
+    (confirmar)="encerrar()" (cancelar)="confirmarEncerrar.set(false)" />
+}
+} @else {
+<div class="wrap">
+  <header class="page-head">
+    <h1>Treino</h1>
+    <p>Escolha um tema ou uma prova inteira e responda no seu ritmo, sem cronômetro. Cada questão é corrigida assim que você responde, com a explicação logo abaixo.</p>
+  </header>
+
+  <section class="panel treino-cfg" aria-labelledby="t-cfg">
+    <h2 id="t-cfg">Novo treino</h2>
+    <div class="seg" role="radiogroup" aria-label="Tipo de treino">
+      <button role="radio" [attr.aria-checked]="modo() === 'tema'" (click)="modo.set('tema')">Por tema</button>
+      <button role="radio" [attr.aria-checked]="modo() === 'ano'" (click)="modo.set('ano')">Por ano</button>
+    </div>
+
+    @if (modo() === 'tema') {
+      <fieldset class="field temas-f">
+        <legend class="temas-top">
+          <span class="lbl-f">Temas <span class="muted" style="font-weight:400">({{ temas().length }} de {{ treino.temas().length }})</span></span>
+        </legend>
+        <div class="temas-acoes">
+          <button type="button" class="btn ghost" (click)="todosTemas(true)">Marcar todos</button>
+          <button type="button" class="btn ghost" [disabled]="!temas().length" (click)="todosTemas(false)">Limpar</button>
+        </div>
+        <div class="temas-lista">
+          @for (t of treino.temas(); track t.tema) {
+            <label class="tema-op" [class.on]="temas().includes(t.tema)">
+              <input type="checkbox" [checked]="temas().includes(t.tema)" (change)="alternarTema(t.tema)">
+              <span class="tema-n">{{ t.tema }}</span><span class="pill">{{ t.total }}</span>
+            </label>
+          }
+        </div>
+      </fieldset>
+    } @else {
+      <div class="field">
+        <span class="lbl-f" id="lbl-ano">Prova</span>
+        <div class="chips" role="radiogroup" aria-labelledby="lbl-ano">
+          @for (a of banco.anos(); track a) {
+            <button role="radio" [attr.aria-checked]="ano() === '' + a" (click)="ano.set('' + a)">ENADE {{ a }}</button>
+          }
+        </div>
+      </div>
+    }
+
+    <label class="check">
+      <input type="checkbox" [ngModel]="comDiscursivas()" (ngModelChange)="comDiscursivas.set($event)">
+      <span>Incluir as questões discursivas<br><span class="muted">Você escreve se quiser e depois abre o padrão de resposta oficial.</span></span>
+    </label>
+    <label class="check">
+      <input type="checkbox" [ngModel]="aleatorio()" (ngModelChange)="aleatorio.set($event)">
+      <span>Embaralhar a ordem<br><span class="muted">Desmarcado, segue a ordem das provas.</span></span>
+    </label>
+
+    <button class="btn primary big" [disabled]="!disponiveis()" (click)="comecar()">
+      {{ filtros().length ? (disponiveis() ? 'Treinar ' + disponiveis() + ' questão(ões)' : 'Nenhuma questão com esse filtro') : 'Escolha ' + (modo() === 'tema' ? 'ao menos um tema' : 'uma prova') }}
+    </button>
+  </section>
+</div>
+}

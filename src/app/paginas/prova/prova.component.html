@@ -1,6 +1,9 @@
 @if (atual(); as a) {
 <div class="topbar">
   <div class="wrap">
+    <button class="btn ghost sair" (click)="sair()" aria-label="Sair da prova" title="Volta ao início; o simulado continua salvo e o tempo segue correndo">
+      <span aria-hidden="true">←</span><span class="who-x" aria-hidden="true">Sair</span>
+    </button>
     <div class="who"><b>{{ a.indice + 1 }}</b> de {{ a.qids.length }}<span class="who-x"> · {{ respondidas() }} respondidas</span></div>
     <div class="timer {{ nivelTempo() }}"><span class="tl">tempo restante</span><span class="t">{{ tempo() }}</span></div>
     <button class="btn sheet-toggle" [attr.aria-expanded]="cartaoAberto()" aria-controls="cartao" (click)="cartaoAberto.set(!cartaoAberto())">Cartão<span class="who-x">-resposta</span></button>

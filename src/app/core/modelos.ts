@@ -67,10 +67,23 @@ export interface Resultado {
   esgotouTempo: boolean;
 }
 
+/** Treino em andamento: questões de um tema ou de um ano, sem cronômetro e com correção na hora. */
+export interface TreinoAtual {
+  modo: 'tema' | 'ano';
+  /** Temas escolhidos ou o ano (como texto, um item só). */
+  filtros: string[];
+  qids: string[];
+  respostas: Record<string, string>;
+  /** Questões já corrigidas (alternativa conferida ou padrão de resposta aberto). */
+  conferidas: Record<string, boolean>;
+  indice: number;
+}
+
 export interface Armazenamento {
   versao: 1;
   historico: Resultado[];
   atual: SimuladoAtual | null;
+  treino?: TreinoAtual | null;
   /** Quantas vezes cada questão já foi sorteada (o sorteio prioriza as menos vistas). */
   vistas: Record<string, number>;
   tema?: 'claro' | 'escuro';

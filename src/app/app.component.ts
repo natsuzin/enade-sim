@@ -1,15 +1,22 @@
-import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter, map } from 'rxjs';
+import { rolarParaTopo } from './shared/rolagem';
 import { AvisoService } from './shared/aviso.service';
 import { ZoomService } from './shared/zoom';
 import { CabecalhoComponent } from './shared/cabecalho.component';
+import { BarraLateralComponent } from './shared/barra-lateral.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CabecalhoComponent],
+  imports: [RouterOutlet, CabecalhoComponent, BarraLateralComponent],
   template: `
-    <app-cabecalho />
-    <router-outlet />
+    @if (!foco()) { <app-cabecalho /> }
+    <div class="layout" [class.foco]="foco()">
+      @if (!foco()) { <app-barra-lateral /> }
+      <div class="conteudo"><router-outlet /></div>
+    </div>
     @if (zoom.src(); as src) {
       <div class="zoom" (click)="zoom.src.set(null)"><img [src]="src" alt="Figura ampliada"></div>
     }
@@ -19,4 +26,10 @@ import { CabecalhoComponent } from './shared/cabecalho.component';
 export class AppComponent {
   aviso = inject(AvisoService);
   zoom = inject(ZoomService);
+  private router = inject(Router);
+  private url = toSignal(
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd), map(() => { rolarParaTopo(); return this.router.url; })),
+    { initialValue: this.router.url });
+  /** Durante a prova o app esconde cabeçalho e barra lateral (modo foco). */
+  foco = computed(() => this.url().startsWith('/prova'));
 }

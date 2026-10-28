@@ -1,5 +1,5 @@
 import { Component, HostListener, computed, inject, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ArmazenamentoService } from '../core/armazenamento.service';
 import { ExportacaoService } from '../core/exportacao.service';
 import { AvisoService } from './aviso.service';
@@ -7,7 +7,7 @@ import { AvisoService } from './aviso.service';
 /** Cabeçalho fixo do app: marca, tema e backup (em menu no celular). */
 @Component({
   selector: 'app-cabecalho',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink],
   template: `
     <header class="site-head">
       <div class="wrap">
@@ -17,11 +17,6 @@ import { AvisoService } from './aviso.service';
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path [attr.d]="menuAberto() ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16'" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
         </button>
         <nav id="acoes-cab" class="head-actions" [class.open]="menuAberto()">
-          <a class="btn ghost" routerLink="/historico" routerLinkActive="ativo" ariaCurrentWhenActive="page" (click)="menuAberto.set(false)">
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12a8 8 0 108-8 8 8 0 00-6.5 3.3M4 4v4h4M12 8v4l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-            Histórico
-          </a>
-          <span class="head-sep" aria-hidden="true"></span>
           <button class="btn ghost" [disabled]="!temHistorico()" [attr.title]="temHistorico() ? null : 'Entregue um simulado para ter o que exportar'" (click)="exportar()">
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
             Exportar backup

@@ -8,6 +8,7 @@ import { LETRAS, Letra, Questao } from '../../core/modelos';
 import { AvisoService } from '../../shared/aviso.service';
 import { ConfirmacaoComponent } from '../../shared/confirmacao.component';
 import { ZoomFigurasDirective } from '../../shared/zoom';
+import { rolarParaTopo } from '../../shared/rolagem';
 
 @Component({
   selector: 'app-prova',
@@ -77,8 +78,9 @@ export class ProvaComponent implements OnInit, OnDestroy {
     this.pendente = () => { this.sim.responder(q.id, texto); this.pendente = undefined; };
     this.debounce = setTimeout(() => this.pendente?.(), 400);
   }
-  irPara(i: number): void { this.salvarPendente(); this.sim.irPara(i); this.cartaoAberto.set(false); window.scrollTo({ top: 0 }); }
+  irPara(i: number): void { this.salvarPendente(); this.sim.irPara(i); this.cartaoAberto.set(false); rolarParaTopo(); }
   mover(d: number): void { const a = this.atual(); if (a) this.irPara(a.indice + d); }
+  sair(): void { this.salvarPendente(); this.router.navigate(['/']); }
   marcar(): void { const q = this.questao(); if (q) this.sim.alternarMarcada(q.id); }
 
   entregar(esgotou = false): void {
