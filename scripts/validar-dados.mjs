@@ -31,5 +31,37 @@ for (const curso of indice.provas) {
     console.log(`${arq}: FG ${cont.fg.obj} obj + ${cont.fg.disc} disc, CE ${cont.ce.obj} obj + ${cont.ce.disc} disc`);
   }
 }
+
+// Material de estudo: uma entrada por tema das questões, sem chaves órfãs.
+const temas = new Set();
+for (const curso of indice.provas)
+  for (const ano of curso.anos) {
+    const arq = new URL(`dados/${curso.curso}-${ano}.json`, raiz);
+    if (existsSync(arq)) for (const q of JSON.parse(readFileSync(arq)).questoes) if (q.tema) temas.add(q.tema);
+  }
+const arqEstudos = new URL('dados/estudos.json', raiz);
+if (!existsSync(arqEstudos)) falha('dados/estudos.json não existe');
+else {
+  const estudos = JSON.parse(readFileSync(arqEstudos));
+  const chaves = Object.keys(estudos.temas ?? {});
+  for (const t of temas) if (!chaves.includes(t)) falha(`estudos.json: falta o tema "${t}"`);
+  for (const t of chaves) if (!temas.has(t)) falha(`estudos.json: "${t}" não é tema de nenhuma questão`);
+  let recursos = 0;
+  for (const [t, e] of Object.entries(estudos.temas ?? {})) {
+    if (!e.resumo?.trim()) falha(`estudos.json "${t}": sem resumo`);
+    if (!Array.isArray(e.recursos) || !e.recursos.length) { falha(`estudos.json "${t}": sem recursos`); continue; }
+    e.recursos.forEach((r, i) => {
+      const ref = `estudos.json "${t}" recurso ${i + 1}`;
+      recursos++;
+      if (!['video', 'livro', 'texto'].includes(r.tipo)) falha(`${ref}: tipo inválido (${r.tipo})`);
+      if (!r.titulo?.trim()) falha(`${ref}: sem título`);
+      if (r.idioma !== undefined && !['pt', 'en'].includes(r.idioma)) falha(`${ref}: idioma inválido (${r.idioma})`);
+      if ((r.tipo === 'video' || r.tipo === 'texto') && !r.url?.startsWith('https://')) falha(`${ref}: url precisa começar com https://`);
+      else if (r.url !== undefined && !r.url.startsWith('https://')) falha(`${ref}: url precisa começar com https://`);
+    });
+  }
+  console.log(`dados/estudos.json: ${chaves.length} temas, ${recursos} recursos`);
+}
+
 if (erros) { console.error(`\n${erros} problema(s) encontrado(s).`); process.exit(1); }
 console.log('\nTudo certo.');

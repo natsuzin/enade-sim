@@ -1,0 +1,59 @@
+<div class="wrap">
+  <header class="page-head">
+    <h1>Estudos</h1>
+    <p>Onde estudar cada tema das provas: vídeo-aulas gratuitas e o livro de referência que a própria banca do ENADE cita nos enunciados.{{ temHistorico() ? ' Os temas em que você mais erra aparecem primeiro.' : '' }}</p>
+  </header>
+
+  @if (estudos.erro(); as erro) { <div class="empty" style="margin-top:28px">{{ erro }}</div> }
+
+  <div class="estudos-filtros">
+    <label class="estudos-busca">
+      <span class="sr-only">Buscar tema</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M11 18a7 7 0 100-14 7 7 0 000 14zM20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      <input class="input" type="search" placeholder="Buscar tema" [value]="busca()" (input)="busca.set($any($event.target).value)">
+    </label>
+  </div>
+
+  <div class="estudos-lista">
+    @for (c of visiveis(); track c.tema) {
+      <article class="panel estudo" [id]="idCard(c.tema)" [class.destaque]="destacado() === c.tema">
+        <div class="estudo-top">
+          <h2>{{ c.tema }}</h2>
+          @if (c.d; as d) {
+            <span class="estudo-taxa" [attr.title]="d.acertos + ' de ' + d.total + ' nos simulados'">
+              <span class="bar {{ classeBarra(d.taxa) }}"><i [style.width.%]="d.taxa * 100 || 4"></i></span>
+              <span class="pill">{{ pct(d.acertos, d.total) }}%</span>
+            </span>
+          } @else if (temHistorico()) {
+            <span class="pill" title="Ainda não caiu nos seus simulados">sem dados</span>
+          }
+        </div>
+        <p class="estudo-resumo">{{ c.resumo }}</p>
+        <ul class="recursos">
+          @for (r of c.recursos; track $index) {
+            <li class="recurso">
+              <span class="recurso-ic" [attr.aria-label]="r.tipo === 'video' ? 'Vídeo' : r.tipo === 'livro' ? 'Livro' : 'Texto'" role="img">
+                @switch (r.tipo) {
+                  @case ('video') { <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg> }
+                  @case ('livro') { <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2V5zM4 19a2 2 0 012-2h13" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/></svg> }
+                  @default { <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 3h7l5 5v13H7a2 2 0 01-2-2V5a2 2 0 012-2zM14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg> }
+                }
+              </span>
+              <span class="recurso-txt">
+                @if (r.url) {
+                  <a [href]="r.url" target="_blank" rel="noopener">{{ r.titulo }}<span class="sr-only"> (abre em nova aba)</span></a>
+                } @else {
+                  <b>{{ r.titulo }}</b>
+                }
+                @if (r.idioma === 'en') { <span class="tag fg">em inglês</span> }
+                @if (descricao(r)) { <span class="recurso-d">{{ descricao(r) }}</span> }
+              </span>
+            </li>
+          }
+        </ul>
+      </article>
+    } @empty {
+      @if (estudos.carregado()) { <div class="empty">Nenhum tema encontrado para “{{ busca() }}”.</div> }
+    }
+  </div>
+</div>

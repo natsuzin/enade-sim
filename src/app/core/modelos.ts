@@ -101,4 +101,21 @@ export interface Avaliacao {
   notaFG: number; notaCE: number; nota: number;
 }
 
+/** Material indicado para estudar um tema (public/dados/estudos.json). */
+export interface Recurso {
+  tipo: 'video' | 'livro' | 'texto';
+  titulo: string;
+  /** Canal, instituição ou autores. */
+  fonte?: string;
+  idioma?: 'pt' | 'en';
+  /** Obrigatória para vídeo e texto. */
+  url?: string;
+  /** Só para livros. */
+  capitulos?: string;
+}
+
+export interface EstudoTema { resumo: string; recursos: Recurso[]; }
+
+export interface Estudos { versao: 1; temas: Record<string, EstudoTema>; }
+
 export interface DesempenhoTema { tema: string; acertos: number; total: number; taxa: number; }

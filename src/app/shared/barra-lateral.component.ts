@@ -30,6 +30,8 @@ export class BarraLateralComponent {
       ativo: u => u.startsWith('/treino') },
     { rota: '/provas', rotulo: 'Provas', icone: 'M7 3h7l5 5v13H7a2 2 0 01-2-2V5a2 2 0 012-2zM14 3v5h5M9 13h6M9 17h6',
       ativo: u => u.startsWith('/provas') },
+    { rota: '/estudos', rotulo: 'Estudos', icone: 'M3 5h6a3 3 0 013 3v12a2 2 0 00-2-2H3zM21 5h-6a3 3 0 00-3 3v12a2 2 0 012-2h7z',
+      ativo: u => u.startsWith('/estudos') },
     { rota: '/historico', rotulo: 'Histórico', icone: 'M4 19V9m6 10V5m6 14v-7m4 7H3',
       ativo: u => u.startsWith('/historico') },
   ];

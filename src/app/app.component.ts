@@ -32,4 +32,11 @@ export class AppComponent {
     { initialValue: this.router.url });
   /** Durante a prova o app esconde cabeçalho e barra lateral (modo foco). */
   foco = computed(() => this.url().split('?')[0] === '/prova');
+
+  constructor() {
+    // Garantia extra no celular: se o navegador deslocar a janela (ex.: ao fechar o teclado), volta ao topo.
+    const corrigir = () => { if (window.scrollX || window.scrollY) window.scrollTo(0, 0); };
+    window.addEventListener('scroll', corrigir, { passive: true });
+    window.visualViewport?.addEventListener('resize', corrigir);
+  }
 }
