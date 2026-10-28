@@ -1,0 +1,37 @@
+<div class="wrap">
+  <header class="res-head">
+    <h1>Histórico</h1>
+    <p>Seus simulados entregues e o desempenho por tema somando todos eles.</p>
+  </header>
+
+  @if (historico().length === 0) {
+    <div class="empty" style="margin:22px 0 56px">Nenhum simulado entregue ainda. Quando você entregar um, ele aparece aqui com a nota estimada e os temas em que você mais erra.
+      <a class="btn ghost" routerLink="/">Começar um simulado</a></div>
+  } @else {
+    <div class="hist-grid">
+      <section class="panel" aria-labelledby="t-sims">
+        <h2 id="t-sims">Simulados ({{ historico().length }})</h2>
+        <ul class="hist-list">
+          @for (item of listaInvertida(); track item.r.id) {
+            <li><button (click)="abrir(item.r)">
+              <span><span class="d">{{ fmtData(item.r.data) }}</span><br>
+                <span class="muted" style="font-size:13px">{{ item.e.acertos }} de {{ item.e.totalObjetivas }} objetivas, {{ fmtDur(item.r.duracao) }}</span></span>
+              <span class="pill">{{ pct(item.e.acertos, item.e.totalObjetivas) }}%</span>
+              <span class="s">{{ num(item.e.nota) }}</span>
+            </button></li>
+          }
+        </ul>
+      </section>
+
+      <section class="panel" aria-labelledby="t-temas">
+        <h2 id="t-temas">Temas para revisar</h2>
+        <p class="muted" style="font-size:14px;margin:0 0 6px">Do pior para o melhor aproveitamento nas objetivas.</p>
+        <ul class="weak">
+          @for (t of temas(); track t.tema) {
+            <li><span>{{ t.tema }}</span><span class="bar {{ classeBarra(t.taxa) }}"><i [style.width.%]="t.taxa * 100 || 4"></i></span><span class="pill" [attr.title]="t.acertos + ' de ' + t.total">{{ pct(t.acertos, t.total) }}%</span></li>
+          }
+        </ul>
+      </section>
+    </div>
+  }
+</div>

@@ -1,0 +1,13 @@
+{
+  "provas": [
+    {
+      "curso": "cc-bacharelado",
+      "nome": "Ciência da Computação (bacharelado)",
+      "anos": [
+        2014,
+        2017,
+        2021
+      ]
+    }
+  ]
+}

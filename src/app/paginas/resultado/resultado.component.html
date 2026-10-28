@@ -1,0 +1,106 @@
+@if (resultado(); as r) { @if (av(); as e) {
+<div class="wrap">
+  <header class="res-head">
+    <button class="btn ghost" style="margin-left:-12px" (click)="inicio()">Voltar ao início</button>
+    <h1>Resultado do simulado</h1>
+    <p>{{ fmtData(r.data) }}, {{ fmtDur(r.duracao) }} de prova{{ r.esgotouTempo ? ' (entregue ao fim do tempo)' : '' }}</p>
+  </header>
+
+  <div class="score-strip">
+    <section class="panel">
+      <p class="big-line"><b>{{ e.acertos }}</b> acertos em {{ e.totalObjetivas }} objetivas</p>
+      <p class="muted" style="margin:0">{{ pct(e.acertos, e.totalObjetivas) }}% de aproveitamento{{ e.emBranco ? ', ' + e.emBranco + ' em branco' : '' }}</p>
+      <div class="res-grid" aria-label="Cartão-resposta corrigido">
+        @for (it of itens(); track it.id) {
+          <button class="cell {{ it.status === 'disc' ? 'disc' : it.status }}" [class.done]="it.status === 'disc' && notaDiscursiva(it.id) !== undefined"
+                  (click)="irPara(it.i)" [attr.title]="'Questão ' + rot()[it.i]">{{ rot()[it.i] }}</button>
+        }
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--ok);border-color:var(--ok)"></i>certa</span>
+        <span><i style="background:var(--err);border-color:var(--err)"></i>errada</span>
+        <span><i style="border-style:dashed"></i>em branco</span>
+        @if (e.discursivas) { <span><i style="border-radius:3px"></i>discursiva</span> }
+      </div>
+    </section>
+    <section class="panel">
+      <dl class="kv">
+        <dt>Formação geral (objetivas)</dt><dd>{{ e.fgAcertos }} de {{ e.fgTotal }}</dd>
+        <dt>Componente específico (objetivas)</dt><dd>{{ e.ceAcertos }} de {{ e.ceTotal }}</dd>
+        @if (e.discursivas) { <dt>Discursivas autoavaliadas</dt><dd>{{ e.discursivas - e.pendentes }} de {{ e.discursivas }}</dd> }
+      </dl>
+      <div class="nota">
+        <div class="n">{{ num(e.nota) }}</div>
+        <p>Nota estimada de 0 a 100, com os pesos do ENADE (formação geral 25%, componente específico 75%).{{ e.pendentes ? ' ' + e.pendentes + ' discursiva(s) sem autoavaliação contam como zero.' : '' }}</p>
+      </div>
+      <div class="actions">
+        <button class="btn" (click)="baixarHtml()">Baixar relatório</button>
+        <button class="btn" (click)="baixarCsv()">Baixar planilha</button>
+        <button class="btn primary" (click)="inicio()">Novo simulado</button>
+      </div>
+    </section>
+  </div>
+
+  @if (temas().length) {
+    <section class="panel themes"><h2>Desempenho por tema</h2>
+      <ul class="weak">
+        @for (t of temas(); track t.tema) {
+          <li><span>{{ t.tema }}</span><span class="bar {{ classeBarra(t.taxa) }}"><i [style.width.%]="t.taxa * 100 || 4"></i></span><span class="pill">{{ t.acertos }}/{{ t.total }}</span></li>
+        }
+      </ul>
+    </section>
+  }
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" [attr.aria-selected]="aba() === 'erradas'" (click)="aba.set('erradas')">Erradas e em branco ({{ erradas().length }})</button>
+    @if (e.discursivas) { <button class="tab" role="tab" [attr.aria-selected]="aba() === 'disc'" (click)="aba.set('disc')">Discursivas ({{ e.discursivas }})</button> }
+    <button class="tab" role="tab" [attr.aria-selected]="aba() === 'todas'" (click)="aba.set('todas')">Todas ({{ r.qids.length }})</button>
+  </div>
+
+  <div appZoomFiguras>
+    @for (it of filtrados(); track it.id) {
+      @if (it.q.tipo === 'disc') {
+        <article class="rcard discc" [id]="'q-' + it.i">
+          <div class="rtop"><h3>Discursiva {{ rot()[it.i].slice(1) }}</h3>
+            <span class="tag" [class.fg]="it.q.area === 'fg'">{{ nomeArea(it.q.area) }}</span>
+            <span class="origin">ENADE {{ it.q.ano }}, discursiva {{ it.q.n }}</span></div>
+          <details class="enun-d"><summary>Ver enunciado</summary><div class="enun" [innerHTML]="it.q.enunciadoHtml"></div></details>
+          <div class="ans" style="margin-top:12px"><div class="h">Sua resposta</div>
+            @if (it.resp.trim()) { <div class="mine-text" style="margin:0;padding:0;background:none">{{ it.resp }}</div> } @else { <span class="muted">Em branco</span> }
+          </div>
+          <div class="padrao"><h4>Padrão de resposta</h4><div class="enun" [innerHTML]="it.q.padraoHtml"></div></div>
+          <div class="selfscore"><span>Compare com o padrão e dê sua nota:</span>
+            @for (n of NOTAS; track n) {
+              <button [attr.aria-pressed]="notaDiscursiva(it.id) === n" (click)="avaliar(it.id, n)">{{ num(n, n % 1 ? 1 : 0) }}</button>
+            }
+          </div>
+        </article>
+      } @else {
+        <article class="rcard {{ it.status }}c" [id]="'q-' + it.i">
+          <div class="rtop"><h3>Questão {{ rot()[it.i] }}</h3>
+            <span class="verdict {{ it.status }}">{{ it.status === 'blank' ? 'Em branco' : it.status === 'ok' ? 'Certa' : 'Errada' }}</span>
+            <span class="tag" [class.fg]="it.q.area === 'fg'">{{ it.q.tema }}</span>
+            <span class="origin">ENADE {{ it.q.ano }}, questão {{ it.q.n }}</span></div>
+          <details class="enun-d"><summary>Ver enunciado</summary><div class="enun" [innerHTML]="it.q.enunciadoHtml"></div></details>
+          <div class="answers">
+            @if (it.status === 'ok') {
+              <div class="ans mine right"><div class="h">Sua resposta</div><span class="lt">{{ it.resp }}</span><span class="otxt" [innerHTML]="alternativa(it.q, it.resp)"></span></div>
+            } @else {
+              <div class="ans mine"><div class="h">Sua resposta</div>
+                @if (it.resp) { <span class="lt">{{ it.resp }}</span><span class="otxt" [innerHTML]="alternativa(it.q, it.resp)"></span> } @else { <span class="muted">Você deixou em branco.</span> }
+              </div>
+              <div class="ans correct"><div class="h">Resposta certa</div><span class="lt">{{ it.q.resposta }}</span><span class="otxt" [innerHTML]="alternativa(it.q, it.q.resposta!)"></span></div>
+            }
+          </div>
+          <div class="why"><b>Por que {{ it.status === 'ok' ? 'a' : 'é a' }} {{ it.q.resposta }}:</b> {{ it.q.explicacao }}</div>
+        </article>
+      }
+    } @empty {
+      <div class="empty">Nenhuma questão errada. Confira a aba “Todas” para revisar as explicações.</div>
+    }
+  </div>
+  <div style="height:60px"></div>
+</div>
+} } @else {
+  <div class="wrap" style="padding:60px 20px"><div class="empty">Resultado não encontrado. <button class="btn ghost" (click)="inicio()">Voltar ao início</button></div></div>
+}

@@ -1,0 +1,55 @@
+<div class="wrap">
+  <header class="home-head">
+    <p class="lede">Questões reais das provas de {{ banco.anos().join(', ') }}, sorteadas a cada tentativa, com cronômetro de prova, correção comentada e histórico da sua evolução.</p>
+  </header>
+
+  @if (banco.erro(); as erro) { <div class="empty">{{ erro }}</div> }
+
+  <div class="home-grid">
+    <section class="panel" aria-labelledby="t-novo">
+      @if (atual()) {
+        <div class="resume">
+          <p><b>Você tem um simulado em andamento.</b><br>
+            <span class="muted">{{ restanteAtual() > 0 ? 'Restam ' + fmtTempo(restanteAtual()) + ' de prova.' : 'O tempo acabou, entregue para ver o resultado.' }}</span></p>
+          <button class="btn primary" (click)="continuar()">{{ restanteAtual() > 0 ? 'Continuar' : 'Ver resultado' }}</button>
+          <button class="btn ghost danger" (click)="confirmarDescarte.set(true)">Descartar</button>
+        </div>
+      }
+      <h2 id="t-novo">Novo simulado</h2>
+      <div class="format">
+        <span>Formação geral</span><b>{{ comDiscursivas() ? '8 objetivas e 2 discursivas' : '8 objetivas' }}</b>
+        <span>Componente específico</span><b>{{ comDiscursivas() ? '27 objetivas e 3 discursivas' : '27 objetivas' }}</b>
+        <span>Total</span><b>{{ comDiscursivas() ? 40 : 35 }} questões</b>
+        <span>Tempo</span><b>4 horas</b>
+      </div>
+      <label class="check">
+        <input type="checkbox" [ngModel]="comDiscursivas()" (ngModelChange)="comDiscursivas.set($event)">
+        <span>Incluir as questões discursivas<br><span class="muted">Você responde em texto e, no final, compara com o padrão de resposta oficial.</span></span>
+      </label>
+      <button class="btn primary big" [disabled]="!!atual() || !banco.carregado()" (click)="comecar()">Começar simulado</button>
+      @if (atual()) { <p class="muted" style="font-size:14px;margin:10px 0 0">Entregue ou descarte o simulado em andamento para começar outro.</p> }
+    </section>
+
+    <section class="panel" aria-labelledby="t-hist">
+      <h2 id="t-hist">Sua evolução</h2>
+      @if (historico().length === 0) {
+        <div class="empty" style="margin-top:12px">Seus simulados entregues aparecem aqui, com nota estimada, gráfico de evolução e os temas em que você mais erra.</div>
+      } @else {
+        <div class="stats">
+          <div class="stat"><div class="v">{{ historico().length }}</div><div class="l">simulados entregues</div></div>
+          <div class="stat"><div class="v">{{ num(melhor()) }}</div><div class="l">melhor nota estimada</div></div>
+          <div class="stat"><div class="v">{{ num(media()) }}</div><div class="l">média das notas</div></div>
+        </div>
+        <app-grafico-evolucao [avaliacoes]="avaliacoes()" />
+        <a class="btn ver-hist" routerLink="/historico">Ver histórico e temas para revisar</a>
+      }
+    </section>
+  </div>
+
+  <p class="foot">{{ banco.totalObjetivas() }} questões objetivas e {{ banco.totalDiscursivas() }} discursivas no banco. Os dados ficam salvos só neste navegador; use o backup no topo da página para levá-los a outro aparelho.</p>
+</div>
+
+@if (confirmarDescarte()) {
+  <app-confirmacao titulo="Descartar o simulado?" mensagem="As respostas deste simulado serão apagadas e ele não entra no histórico."
+    textoConfirmar="Descartar" (confirmar)="descartar()" (cancelar)="confirmarDescarte.set(false)" />
+}

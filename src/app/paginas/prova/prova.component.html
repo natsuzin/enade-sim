@@ -1,0 +1,88 @@
+@if (atual(); as a) {
+<div class="topbar">
+  <div class="wrap">
+    <div class="who"><b>{{ a.indice + 1 }}</b> de {{ a.qids.length }}<span class="who-x"> · {{ respondidas() }} respondidas</span></div>
+    <div class="timer {{ nivelTempo() }}"><span class="tl">tempo restante</span><span class="t">{{ tempo() }}</span></div>
+    <button class="btn sheet-toggle" [attr.aria-expanded]="cartaoAberto()" aria-controls="cartao" (click)="cartaoAberto.set(!cartaoAberto())">Cartão<span class="who-x">-resposta</span></button>
+  </div>
+  <div class="rail {{ nivelTempo() }}"><i [style.width.%]="larguraTrilho()"></i></div>
+</div>
+
+<div class="wrap exam">
+  <main aria-live="polite">
+    @if (questao(); as q) {
+      <div class="qhead">
+        <h1 class="qnum">{{ q.tipo === 'disc' ? 'Questão discursiva ' + rot()[a.indice].slice(1) : 'Questão ' + rot()[a.indice] }}</h1>
+        <span class="tag" [class.fg]="q.area === 'fg'">{{ q.area === 'fg' ? 'Formação geral' : 'Componente específico' }}</span>
+      </div>
+      <article class="qbody" appZoomFiguras>
+        <div class="enun" [innerHTML]="q.enunciadoHtml"></div>
+        @if (q.tipo === 'obj') {
+          <ol class="opts" role="radiogroup" aria-label="Alternativas">
+            @for (alt of q.alternativasHtml; track $index) {
+              <li><button class="opt" [class.sel]="respostaAtual() === LETRAS[$index]" role="radio"
+                          [attr.aria-checked]="respostaAtual() === LETRAS[$index]" (click)="escolher(LETRAS[$index])">
+                <span class="let">{{ LETRAS[$index] }}</span><span class="txt" [innerHTML]="alt"></span>
+              </button></li>
+            }
+          </ol>
+        } @else {
+          <div class="disc-area">
+            <label for="ta" class="muted" style="font-size:14px">Sua resposta (na prova real o limite é de 15 linhas)</label>
+            <textarea id="ta" spellcheck="true" [value]="respostaAtual()" (input)="digitar($any($event.target).value)"></textarea>
+            <div class="disc-meta"><span>{{ palavras() }} palavra(s)</span><span>Salvo automaticamente</span></div>
+          </div>
+        }
+      </article>
+      <div class="qnav">
+        <button class="btn" [disabled]="a.indice === 0" (click)="mover(-1)" aria-label="Questão anterior"><span aria-hidden="true">←</span><span class="lbl">Anterior</span></button>
+        <button class="flag" [attr.aria-pressed]="!!a.marcadas[q.id]" (click)="marcar()">{{ a.marcadas[q.id] ? 'Marcada' : 'Revisar depois' }}</button>
+        @if (a.indice === a.qids.length - 1) {
+          <button class="btn primary" (click)="confirmarEntrega.set(true)">Entregar</button>
+        } @else {
+          <button class="btn primary" (click)="mover(1)" aria-label="Próxima questão"><span class="lbl">Próxima</span><span aria-hidden="true">→</span></button>
+        }
+      </div>
+      @if (q.tipo === 'obj') {
+        <p class="kbd">Atalhos: <kbd>A</kbd>–<kbd>E</kbd> marcam a alternativa, <kbd>←</kbd> <kbd>→</kbd> mudam de questão.</p>
+      }
+    }
+  </main>
+
+  @if (cartaoAberto()) { <div class="sheet-scrim" (click)="cartaoAberto.set(false)"></div> }
+  <aside id="cartao" class="sheet" [class.open]="cartaoAberto()" aria-label="Cartão-resposta">
+    <div class="sheet-top">
+      <h2>Cartão-resposta</h2>
+      <button class="btn icon sheet-close" aria-label="Fechar cartão-resposta" (click)="cartaoAberto.set(false)">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+      </button>
+    </div>
+    <p class="prog">{{ respondidas() }} de {{ a.qids.length }} respondidas</p>
+    @for (g of grupos(); track g.titulo) {
+      <h3>{{ g.titulo }}</h3>
+      <div class="grid">
+        @for (it of g.itens; track it.id) {
+          <button class="cell" [class.disc]="it.q.tipo === 'disc'" [class.done]="sim.respondida(it.id)"
+                  [class.cur]="it.i === a.indice" [class.flagged]="a.marcadas[it.id]" (click)="irPara(it.i)"
+                  [attr.aria-label]="'Questão ' + rot()[it.i]">
+            {{ it.q.tipo === 'obj' && a.respostas[it.id] ? a.respostas[it.id] : rot()[it.i] }}
+          </button>
+        }
+      </div>
+    }
+    <div class="legend">
+      <span><i style="background:var(--accent);border-color:var(--accent)"></i>respondida</span>
+      <span><i></i>em branco</span>
+      <span><i style="background:var(--warn);border-color:var(--warn)"></i>revisar</span>
+    </div>
+    <button class="btn primary" (click)="confirmarEntrega.set(true)">Entregar prova</button>
+  </aside>
+</div>
+
+@if (confirmarEntrega()) {
+  <app-confirmacao titulo="Entregar a prova?"
+    [mensagem]="(emBranco() ? emBranco() + ' questão(ões) em branco. ' : 'Todas as questões foram respondidas. ') + (marcadas() ? marcadas() + ' marcada(s) para revisar. ' : '') + 'Depois de entregar não é possível alterar as respostas.'"
+    textoConfirmar="Entregar" textoCancelar="Continuar respondendo"
+    (confirmar)="entregar()" (cancelar)="confirmarEntrega.set(false)" />
+}
+}
